@@ -1,0 +1,38 @@
+<%- layout('layouts/boilerplate.ejs') %>
+
+<div class="row-mt-3" >
+    <h3 class="col-3 offset-3">Book product</h3>
+    <p class="offset-3">The Owner will send the details on your Whatsapp no.</p>
+    <div class="col-6 offset-3">
+        <form action="/listings/<%=listing._id%>/book" method="POST" novalidate class="needs-validation">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" name="name"  class="form-control" required>
+                <div class="invalid-feedback">name can't be empty</div>
+              </div>
+              <div class="mb-3">
+                <label for="number" class="form-label">Whatsapp No.</label>
+                <input type="number" id="number" name="number" class="form-control" minlength="10" required>
+                <div class="invalid-feedback">Whatsapp No. can't be empty</div>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-md-4">
+                  <label for="fromDate" class="form-label">from Date</label>
+                  <input type="text" name="fromDate" value="<%=formattedDate%>"  class="form-control" required>
+                  <div class="invalid-feedback">Price can't be empty</div>
+                </div>
+                <div class="mb-3 col-md-8">
+                  <label for="toDate" class="form-label">to Date</label>
+                  <input type="text" name="toDate" value="<%=formattedDate%>"  class="form-control" required>
+                  <div class="invalid-feedback">Price can't be empty</div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">send message</label>
+                <textarea name="message" class="form-control" required>Need this product</textarea>
+                <div class="invalid-feedback">Description can't be empty</div>
+              </div>
+              <button class="btn btn-success mt-3 mb-4">Book</button>
+        </form>
+    </div>
+</div>

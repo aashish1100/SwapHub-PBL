@@ -1,0 +1,59 @@
+
+<%- layout('layouts/boilerplate.ejs') %>
+
+<div class="row">
+  <div class="col-8 offset-2" >
+    <h1 class="mt-4">add your item here</h1>
+    <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+      <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" name="listing[title]" value="<%=listing.title%>" class="form-control" required>
+      <div class="invalid-feedback">Title can't be empty</div>
+    </div>
+    <div class="mb-3">
+      <p>Orignal listing image</p>
+      <img src="<%=originalImageurl %>" alt="" height="100px" width="100px">
+    </div>
+    <div class="mb-3">
+      <label form="image" class="form-label">Upload Image</label>
+      <input type="file" name="listing[image]" id="" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea name="listing[description]" id=""  class="form-control" required><%=listing.description%></textarea>
+      <div class="invalid-feedback">Description can't be empty</div>
+    </div>
+    <div class="row">
+      <div class="mb-3 col-md-4">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" name="listing[price]" value="<%=listing.price%>"  class="form-control" required>
+        <div class="invalid-feedback">Price can't be empty</div>
+      </div>
+      <div class="mb-3 col-md-8">
+        <label for="location" class="form-label">Location/Hostel</label>
+        <input type="text" name="listing[location]" value="<%=listing.location%>" class="form-control" required>
+        <div class="invalid-feedback">location can't be empty</div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="location" class="form-label">College</label>
+      <input type="text" name="listing[college]" value="<%=listing.college%>"  placeholder="enter your College" class="form-control" required>
+      <div class="invalid-feedback">College can't be empty</div>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="listing[type]" id="exampleRadios1" value="rent" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        for rent
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="listing[type]" id="exampleRadios1" value="buy" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        for sell
+      </label>
+    </div>
+    <button class="btn btn-dark mt-3 mb-3 edit-btn">Edit</button>
+  </form>
+</div>
+</div>
+
