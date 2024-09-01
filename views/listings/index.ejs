@@ -17,7 +17,7 @@
               <h4>&#x20b9; <%=listing.price.toLocaleString("en-IN") %></h4>
           </div>
           <% if(listing.type==="rent") {%>
-             <a href="/listings/<%=listing._id%>/book/rent"><p><%=listing.type %></p></a>
+             <a href="/listings/<%=listing._id%>/book/rent"><p><%=listing.type %>/day</p></a>
           <% }  else {%>
             <a href="/listings/<%=listing._id%>/book/buy"><p><%=listing.type %></p></a>
            <% } %>  

@@ -33,7 +33,7 @@
     <% } else {%>
         <div class="col-1 offset-2 book">
             <% if(listing.type=="rent") {%>
-                <a href="/listings/<%=listing._id%>/book/rent"><button class="btn btn-dark"><%=listing.type %></button></a>
+                <a href="/listings/<%=listing._id%>/book/rent"><button class="btn btn-dark"><%=listing.type %>/day</button></a>
              <% }  else {%>
                 <a href="/listings/<%=listing._id%>/book/buy"><button class="btn btn-dark"><%=listing.type %></button></a>              <% } %>  
 
