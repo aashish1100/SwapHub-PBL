@@ -13,6 +13,7 @@ const session = require("express-session");
 const MongoStore=require("connect-mongo");
 const flash = require("connect-flash");
 const passport=require("passport");
+
 const LocalStrategy=require("passport-local");
 const User = require("./models/user.js");
 
@@ -20,6 +21,7 @@ const listingRouter= require("./routes/listing.js")
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js")
 const bookRouter = require("./routes/book.js")
+const searchRouter=require("./routes/search.js");
 app.use(methodoverride("_method"));
 app.engine("ejs",ejsmate);
 //ejs path setiing
@@ -53,7 +55,7 @@ main()
     touchAfter:24*3600,
 });
 
-store.on("error",()=>
+store.on("error",(err)=>
 {
     console.log("error in monog session store",err);
 })
@@ -71,6 +73,26 @@ const sessionOptions = {
 }
 
 
+// update old data
+// async function addIsVerifiedField() {
+//     try {
+//       // Update all users, setting `isVerified` to true
+//       await User.updateMany({}, { $set: { isVerified: true } });
+  
+//       console.log("Updated all users with isVerified: true");
+//       mongoose.connection.close();
+//     } catch (error) {
+//       console.error("Error updating users: ", error);
+//       mongoose.connection.close();
+//     }
+
+//     console.log("success");
+//   }
+  
+//   addIsVerifiedField();
+
+
+
 // app.get("/",(req,res)=>
 // {
 //     res.send("hi i am root");
@@ -81,10 +103,11 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+require('./midleware.js');
+// passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next)=>
 {
@@ -94,21 +117,13 @@ app.use((req,res,next)=>
     next();
 })
 
-// app.get("/demouser",async(req,res)=>
-// {
-//     let fakuser ={
-//         email:"student@gmail.com",
-//         username:"demo1"
-//     }
-//     const registeredUser= await User.register(fakuser,"helloworld");
-//     res.send(registeredUser);
-// })
+
 
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use('/listings/:id/book',bookRouter);
 app.use("/",userRouter) ;
-
+app.use("/",searchRouter);
 
 app.all("*",(req,res,next)=>
 {
@@ -118,8 +133,8 @@ app.all("*",(req,res,next)=>
 
 app.use((err,req,res,next)=>
 {
-    let {statuscode=505,message="Unknown Error"}=err;
-    res.status(statuscode).render('error.ejs',{err});
+    let {statusCode=505,message="Unknown Error"}=err;
+    res.status(statusCode).render('error.ejs',{err});
     // res.status(statuscode).send(message);
 })
 

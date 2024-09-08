@@ -1,33 +1,53 @@
 <% layout("layouts/boilerplate.ejs") %>
+  <h1><%= type%> Products</h1>
 
-
-    <!-- <form method="GET" action="/listings/new">
-        <button>Create new</button>
-    </form>
-     -->   
-  
-    <h1>Available Products</h1>
-      <div class="pro-container">
-    <% for(let listing of allListings){%>
-       <a href="/listings/<%=listing._id%>" class="listing-link">
-        <div class="pro">
-          <img src="<%=listing.image.url%>" alt="">
-          <div class="des">
-              <span><b><%= listing.title%></b></span>
-              <h4>&#x20b9; <%=listing.price.toLocaleString("en-IN") %> <% if(listing.type=="rent") {%>/day<%}%> </h4>
-          </div>
-          <% if(listing.type==="rent") {%>
-             <a href="/listings/<%=listing._id%>/book/rent"><p><%=listing.type %></p></a>
-          <% }  else {%>
-            <a href="/listings/<%=listing._id%>/book/buy"><p><%=listing.type %></p></a>
-           <% } %>  
-          <p><%=listing.college %></p>
-          <br>
-      </div>
-       </a>
-        <%}%>
-      </div>
-      
        
-   
-
+    <div class="pro-container">
+  <% for(let listing of allListings){%>
+      <a href="/listings/<%=listing._id%>" class="listing-link">
+      <div class="pro bg-light">
+        <img src="<%=listing.image.url%>" alt="">
+        <div class="des">
+            <span><b><%= listing.title%></b></span>
+            <h4>&#x20b9; <%=listing.price.toLocaleString("en-IN") %> <% if(listing.type=="rent") {%>/day<%}%> </h4>
+        </div>
+        <p><%=listing.college %></p>
+        <div class="book">
+          <% if(listing.type==="rent") {%>
+            <a class="btn btn-dark" href="/listings/<%=listing._id%>/book/rent"><%=listing.type %></a>
+        <% }  else {%>
+          <a class="btn btn-dark" href="/listings/<%=listing._id%>/book/buy"><%=listing.type %></a>
+          <% } %>  
+        </div>
+       
+    </div>
+      </a>
+      <%}%>
+    </div>
+      
+      
+    
+    <% if(!["All","Rent","Buy","Search"].includes(type)) {%>
+    <div class="blur-overlay">
+      <div>
+      <%- include("../includes/flash.ejs") %>
+      <div class="blur-flash">
+      <div class="content">
+           <% if(type=='login') {%>
+               <%- include("../users/login.ejs") %>
+           <% } else if(type=='signup'){ %>
+               <%- include("../users/signup") %>
+            <% } else if(type=='forget'){ %>
+              <%- include("../users/forget") %>
+              <% } else if(type=='reset') {%>
+                <%- include("../users/reset") %>
+                <% } else if(type=='buy'){%>
+                  <%- include("../book/buy.ejs") %>
+                <% } else if(type=='rent'){ %>
+                  <%- include("../book/rent.ejs") %>
+                  <% } %>
+      </div>
+    </div>
+    </div>
+    </div>
+   <% } %>

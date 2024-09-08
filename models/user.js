@@ -7,7 +7,14 @@ const userSchema = new Schema({
     email:{
         type:String,
         required: true,
-    }
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,  // Default to false until the email is verified
+    },
+    verificationToken: String, 
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 });
 
 userSchema.plugin(passportLocalMongoose);

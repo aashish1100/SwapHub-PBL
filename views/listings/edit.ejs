@@ -1,9 +1,9 @@
 
 <%- layout('layouts/boilerplate.ejs') %>
 
-<div class="row">
-  <div class="col-8 offset-2" >
-    <h1 class="mt-4">add your item here</h1>
+<div class="row bg-light listing-form">
+  <div class="col-10 offset-1" >
+    <h3 class="mt-4">Edit your item</h3>
     <form method="POST" action="/listings/<%=listing._id%>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
       <div class="mb-3">
       <label for="title" class="form-label">Title</label>

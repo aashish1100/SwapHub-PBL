@@ -14,8 +14,21 @@ router
 router
      .route("/login")     
      .get(userController.renderLoginForm)
-     .post(saveRedirctlUrl,passport.authenticate("local",{failureRedirect:"/login" , failureFlash:true}), userController.login );
+     .post(saveRedirctlUrl,
+          passport.authenticate("local",
+               {failureRedirect:"/login" ,
+                failureFlash:true}),
+           userController.login );
 
 router.get("/logout",userController.logout);
+
+router.get('/verify-email', userController.verifyemail);
+
+router.route("/forget")
+       .get(userController.renderForgetForm)
+       .post(userController.forget);
+
+router.get("/reset",userController.renderResetForm);
+router.post("/reset/:token",userController.reset);
 
 module.exports=router;

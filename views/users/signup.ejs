@@ -1,25 +1,33 @@
 <%- layout('layouts/boilerplate.ejs') %>
 
-<div class="row mt-5" >
-    <h3 class="offset-lg-3 offset-sm-3">Signup for SwapHub</h3>
-    <div class="col-lg-4 offset-lg-3 col-sm-6 offset-sm-3">
-        <form action="/signup" method="POST" novalidate class="needs-validation">
-            <div class="mb-3">
-                <label for="username" class="form-label">username</label>
-                <input type="text" id="username" name="username"  class="form-control" required>
-                <div class="invalid-feedback">username can't be empty</div>
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">email</label>
-                <input type="email" id="email" name="email"  class="form-control" required>
-                <div class="invalid-feedback">email can't be empty</div>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">password</label>
-                <input type="password" id="password" name="password"  class="form-control" required>
-                <div class="invalid-feedback">password can't be empty</div>
-              </div>
-              <button class="btn btn-success mt-3 mb-4">SignUp</button>
-        </form>
+<div class="row justify-content-center ">
+    <div class="">
+        <h3 class="text-center mt-1 mb-3 mb-sm-4">Create New Account</h3>
+        
+        <div class="card p-4 shadow-sm bg-light">
+            <form action="/signup" method="POST" novalidate class="needs-validation">
+                <div class="mb-2">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-control bg-white" placeholder="Choose a username" required>
+                    <div class="invalid-feedback">Please enter a username.</div>
+                </div>
+                <div class="mb-2">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control bg-white" placeholder="Enter your email address" required>
+                    <div class="invalid-feedback">Please enter your email.</div>
+                </div>
+                <div class="mb-2">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control bg-white" placeholder="Create a password" required>
+                    <div class="invalid-feedback">Please enter a password.</div>
+                </div>
+                <button class="btn btn-success w-100 mt-3 mb-2">Sign Up</button>
+            </form>
+
+            <!-- Already have an account? Login link -->
+            <div class="text-center mt-2">
+                <p class="text-muted">Already have an account? <br> <a href="/login" class="text-success fw-bold">Login</a></p>
+            </div>
+        </div>
     </div>
 </div>

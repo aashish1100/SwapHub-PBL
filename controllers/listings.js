@@ -2,19 +2,22 @@ const Listing = require("../models/listing");
 
 module.exports.index=async function(req,res)
 {
+    let type="All";
     const allListings = await Listing.find().populate('owner', 'username');
-    res.render("listings/index.ejs",{allListings});
+    res.render("listings/index.ejs",{allListings,type});
 };
 
 module.exports.rent=async function(req,res)
 {
+    let type="Rent";
     const allListings = await Listing.find({type:"rent"}).populate('owner', 'username');
-    res.render("listings/index.ejs",{allListings});
+    res.render("listings/index.ejs",{allListings,type});
 };
 module.exports.buy=async function(req,res)
 {
+    let type="Buy";
     const allListings = await Listing.find({type:"buy"}).populate('owner', 'username');
-    res.render("listings/index.ejs",{allListings});
+    res.render("listings/index.ejs",{allListings,type});
 };
 module.exports.renderNewForm=(req,res)=>
     {
@@ -39,8 +42,8 @@ module.exports.showListing=async function(req,res)
         req.flash("error","Listing you requested for does not exist")
         res.redirect("/listings")
     }
-   
-    res.render("listings/show.ejs",{listing});
+   const currUserId=res.locals.currUser._id
+    res.render("listings/show.ejs",{listing,currUserId});
 };
 
 
@@ -103,3 +106,4 @@ module.exports.destroyListing=async function(req,res,next){
   res.redirect("/listings");
   
 };
+

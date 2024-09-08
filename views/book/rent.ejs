@@ -1,38 +1,41 @@
 <%- layout('layouts/boilerplate.ejs') %>
 
-<div class="row-mt-3" >
-    <h3 class="col-3 offset-3">Book product</h3>
-    <p class="offset-3">The Owner will send the details on your Whatsapp no.</p>
-    <div class="col-6 offset-3">
-        <form action="/listings/<%=listing._id%>/book" method="POST" novalidate class="needs-validation">
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" id="name" name="name"  class="form-control" required>
-                <div class="invalid-feedback">name can't be empty</div>
-              </div>
-              <div class="mb-3">
-                <label for="number" class="form-label">Whatsapp No.</label>
-                <input type="number" id="number" name="number" class="form-control" minlength="10" required>
-                <div class="invalid-feedback">Whatsapp No. can't be empty</div>
-              </div>
-              <div class="row">
-                <div class="mb-3 col-md-4">
-                  <label for="fromDate" class="form-label">from Date</label>
-                  <input type="text" name="fromDate" value="<%=formattedDate%>"  class="form-control" required>
-                  <div class="invalid-feedback">Price can't be empty</div>
+<div class="row justify-content-center">
+    <div class="">
+        <h3 class="text-center ">Book Product</h3>
+        
+        <div class="card p-2 p-sm-3 shadow-sm bg-light">
+          <p class="text-center">The owner will send the details</p>
+            <form action="/listings/<%= listing._id %>/book" method="POST" novalidate class="needs-validation">
+                <div class="mb-1">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" name="name" class="form-control bg-white" placeholder="Enter your name" required>
+                    <div class="invalid-feedback">Name can't be empty.</div>
                 </div>
-                <div class="mb-3 col-md-8">
-                  <label for="toDate" class="form-label">to Date</label>
-                  <input type="text" name="toDate" value="<%=formattedDate%>"  class="form-control" required>
-                  <div class="invalid-feedback">Price can't be empty</div>
+                <div class="mb-1">
+                    <label for="number" class="form-label">WhatsApp No.</label>
+                    <input type="text" id="number" name="number" class="form-control bg-white" placeholder="Enter your WhatsApp number" minlength="10" required>
+                    <div class="invalid-feedback">WhatsApp No. must be at least 10 digits.</div>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label for="description" class="form-label">send message</label>
-                <textarea name="message" class="form-control" required>Need this product</textarea>
-                <div class="invalid-feedback">Description can't be empty</div>
-              </div>
-              <button class="btn btn-success mt-3 mb-4">Book</button>
-        </form>
+                <div class="row mb-1">
+                    <div class="col-6">
+                        <label for="fromDate" class="form-label">From Date</label>
+                        <input type="text" id="fromDate" name="fromDate" value="<%= formattedDate %>" class="form-control bg-white" required>
+                        <div class="invalid-feedback">From Date can't be empty.</div>
+                    </div>
+                    <div class="col-6">
+                        <label for="toDate" class="form-label">To Date</label>
+                        <input type="text" id="toDate" name="toDate" value="<%= formattedDate %>" class="form-control bg-white" required>
+                        <div class="invalid-feedback">To Date can't be empty.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea id="message" name="message" class="form-control bg-white" placeholder="Write your message here" required>Need this product</textarea>
+                    <div class="invalid-feedback">Message can't be empty.</div>
+                </div>
+                <button type="submit" class="btn btn-success w-100 mt-1 mb-sm-2">Book</button>
+            </form>
+        </div>
     </div>
 </div>

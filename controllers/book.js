@@ -1,6 +1,6 @@
 
 
-const {getRentText,send,getBuyText}=require("../mail.js");
+const mail=require("../mail.js");
 const Listing = require("../models/listing.js")
 
 module.exports.renderBookForm=async(req,res)=>
@@ -12,39 +12,36 @@ module.exports.renderBookForm=async(req,res)=>
         // Combine into a formatted date string
         const formattedDate = `${day}-${month}-${year}`;
         let {id}=req.params;
+        const allListings = await Listing.find().populate('owner', 'username');
+        let type = "rent";
         let listing = await Listing.findById(id);
-       res.render("book/rent.ejs",{listing,formattedDate});
+       res.render("listings/index.ejs",{listing,formattedDate,allListings,type});
     }
  
     module.exports.renderBuyForm=async(req,res)=>
     {
         let {id}=req.params;
+        const allListings = await Listing.find().populate('owner', 'username');
+        let type = "buy";
         let listing = await Listing.findById(id);
-        res.render("book/buy.ejs",{listing});
+       res.render("listings/index.ejs",{listing,allListings,type});
     }
 
 module.exports.sendEmail=async(req,res)=>
     {
         let {id}=req.params;
-        let {fromDate,toDate,name,number,message}=req.body;
         let listing = await Listing.findById(id).populate("owner");
-        let {owner,title} = listing;
-        let {email ,username}=owner;
-        let subject;
-        let text ;
-        if(listing.type=='rent')
-        {
-            subject=`SwapHub Booking Request: ${listing.title} from ${fromDate} to ${toDate}`;
-          text=getRentText(username,title,name,number,fromDate,toDate,message);
-        }
-        else
-        {
-             subject = `SwapHub Purchase Request: ${listing.title}`;
-            text=getBuyText(username,title,name,number,message);
-        }
-        console.log(text);
         try{
-            send(email,subject,text);
+            if(listing.type=='rent')
+            {
+                mail.sendRentText(listing,req.body);
+            }
+            else
+            {
+            
+                mail.sendBuyText(listing,req.body);
+        }
+
             req.flash("success","email sent successfully");
         }
         catch(e)

@@ -1,0 +1,28 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+
+  <h1>Available Products</h1>
+    <div class="pro-container">
+  <% for(let listing of allListings){%>
+      <a href="/listings/<%=listing._id%>" class="listing-link">
+      <div class="pro">
+        <img src="<%=listing.image.url%>" alt="">
+        <div class="des">
+            <span><b><%= listing.title%></b></span>
+            <h4>&#x20b9; <%=listing.price.toLocaleString("en-IN") %> <% if(listing.type=="rent") {%>/day<%}%> </h4>
+        </div>
+        <% if(listing.type==="rent") {%>
+            <a href="/listings/<%=listing._id%>/book/rent"><p><%=listing.type %></p></a>
+        <% }  else {%>
+          <a href="/listings/<%=listing._id%>/book/buy"><p><%=listing.type %></p></a>
+          <% } %>  
+        <p><%=listing.college %></p>
+        <br>
+    </div>
+      </a>
+      <%}%>
+    </div>
+      
+       
+   
+

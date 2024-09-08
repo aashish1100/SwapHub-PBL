@@ -1,0 +1,31 @@
+<%- layout('layouts/boilerplate.ejs') %>
+
+<div class="row mt-5">
+    <h3 class="text-center ">Set a New Password</h3>
+    
+    <div class="mt-3">
+        <div class="card p-4 shadow-sm bg-light">
+            <form action="/reset/<%= token %>" method="POST" novalidate class="needs-validation" id="reset-form">
+                <div class="mb-3">
+                    <label for="password1" class="form-label">New Password</label>
+                    <input type="password" id="password1" name="password1" class="form-control bg-white" placeholder="Enter your new password" required>
+                    <div class="invalid-feedback">Please enter a new password.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password2" class="form-label">Confirm Password</label>
+                    <input type="password" id="password2" name="password2" class="form-control bg-white" placeholder="Re-enter your new password" required>
+                    <div class="invalid-feedback">Please confirm your password.</div>
+                </div>
+
+                <!-- Error message if passwords do not match -->
+                <div id="password-mismatch" class="text-danger mb-3 d-none">
+                    Passwords do not match. Please try again.
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 mt-3 mb-4" id="reset-button">Reset Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
