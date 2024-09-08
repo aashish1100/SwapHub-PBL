@@ -33,21 +33,7 @@
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <ul class="navbar-nav justify-content-start  pe-3">
-          <% if(currUser){ %>
-            <li class="nav-item mx-lg-2">
-              <a class="nav-link" href="/listings"><b>@<%=currUser.username %></b></a>
-            </li>
-            <li class="nav-item mx-lg-2">
-            <a class="nav-link" href="/logout">Log out</a>
-            </li>
-            <% }else{ %>
-              <li class="nav-item mx-lg-2">
-                <a class="nav-link" aria-current="page" href="/signup">signup</a>
-              </li>
-              <li class="nav-item mx-lg-2">
-                <a class="nav-link" aria-current="page" href="/login">login</a>
-              </li>
-            <% } %>
+        
           
           </ul>
       </div>
