@@ -7,6 +7,7 @@ module.exports.index=async function(req,res)
     res.render("listings/index.ejs",{allListings,type});
 };
 
+
 module.exports.rent=async function(req,res)
 {
     let type="Rent";
@@ -43,9 +44,7 @@ module.exports.showListing=async function(req,res)
         res.redirect("/listings")
     }
   
-    let currUserId=null;
-    if(res.locals.currUser) 
-    currUserId=res.locals.currUser._id
+  let  currUserId=res.locals.currUser._id
     
     res.render("listings/show.ejs",{listing,currUserId});
 };
