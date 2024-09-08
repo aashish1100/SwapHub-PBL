@@ -42,7 +42,11 @@ module.exports.showListing=async function(req,res)
         req.flash("error","Listing you requested for does not exist")
         res.redirect("/listings")
     }
-   const currUserId=res.locals.currUser._id
+  
+    let currUserId=null;
+    if(res.locals.currUser) 
+    currUserId=res.locals.currUser._id
+    
     res.render("listings/show.ejs",{listing,currUserId});
 };
 

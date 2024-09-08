@@ -89,7 +89,7 @@
                         Rated: 3 stars
                       </p>
                       <p class="card-text mb-2"><%=review.comment%></p>   
-                      <% if(review.author.equals(currUserId)) {%>         
+                      <% if(currUserId &&review.author.equals(currUserId)) {%>         
                             <form method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
                                 <button class="btn - btn-small btn-dark mb-2">Delete</button>
                                </form>
