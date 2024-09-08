@@ -3,9 +3,10 @@ if(process.env.NODE_ENV!='production')
     require("dotenv").config();
 }
 
+let baseurl = process.env.BASE_URL;
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 4000;
+// const port = process.env.PORT || 4000;
 const mongoose = require("mongoose");
 const methodoverride = require("method-override");
 const ejsmate = require("ejs-mate");
@@ -44,7 +45,7 @@ async function main()
 }
 
 main()
-.then(()=> console.log("connected to db"))
+.then(()=> console.log("connected to db",baseurl))
  .catch((err)=>console.log(err));
 
 
@@ -139,7 +140,8 @@ app.use((err,req,res,next)=>
     // res.status(statuscode).send(message);
 })
 
-app.listen(port,()=>{
+
+app.listen(8080,()=>{
     console.log("server is listening to port 8080");
 })
 
