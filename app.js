@@ -3,7 +3,6 @@ if(process.env.NODE_ENV!='production')
     require("dotenv").config();
 }
 
-let baseurl = process.env.BASE_URL;
 const express = require("express");
 const app = express();
 // const port = process.env.PORT || 4000;
@@ -45,7 +44,7 @@ async function main()
 }
 
 main()
-.then(()=> console.log("connected to db",baseurl))
+.then(()=> console.log("connected to db"))
  .catch((err)=>console.log(err));
 
 
