@@ -29,9 +29,10 @@
     
     <% if(!["All","Rent","Buy","Search"].includes(type)) {%>
     <div class="blur-overlay">
-      <div>
-      <%- include("../includes/flash.ejs") %>
+      <div class="blur-body">
       <div class="blur-flash">
+      <%- include("../includes/flash.ejs") %>
+     </div>
       <div class="content">
            <% if(type=='login') {%>
                <%- include("../users/login.ejs") %>
@@ -47,7 +48,6 @@
                   <%- include("../book/rent.ejs") %>
                   <% } %>
       </div>
-    </div>
     </div>
     </div>
    <% } %>

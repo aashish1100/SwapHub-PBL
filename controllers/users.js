@@ -19,7 +19,7 @@ module.exports.signup = async (req, res, next) => {
         let user = await User.findOne({ email });
         if (user) {
             req.flash("error", "A user with this email already exists");
-            return res.redirect("/listings/signup");
+            return res.redirect("/login");
         }
 
         // Create a new user instance
@@ -40,9 +40,10 @@ module.exports.signup = async (req, res, next) => {
         return res.redirect("/listings"); // Redirect to login page after signup
 
     } catch (e) {
+        
         // Handle errors
         req.flash("error", e.message);
-        res.redirect("/listings/signup");
+        res.redirect("/signup");
     }
 };
 
