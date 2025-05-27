@@ -21,3 +21,5 @@ const Listing = require("../models/listing.js")
  }  
 
  inintdDB();
+
+//models
