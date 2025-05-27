@@ -4,6 +4,28 @@ const Listing = require("../models/listing.js")
 const User = require('../models/user');
 const mail=require("../mail.js");
 const { any } = require('joi');
+const temp = require("./utils/emailWorker.js")
+
+const path = require('path');
+
+
+
+const { fork } = require('child_process');
+
+function sendEmailInChildProcess(type, user, token) {
+  const child = fork(path.join(__dirname, 'utils', 'emailWorker.js'));
+
+  child.send({ type, user, token });
+
+  child.on('exit', (code) => {
+    console.log(`Email child process exited with code ${code}`);
+  });
+
+  child.on('error', (err) => {
+    console.error('Email process error:', err);
+  });
+}
+
 module.exports.renderSignupForm=async(req,res)=>
 {
     const allListings = await Listing.find().populate('owner', 'username');
@@ -33,7 +55,12 @@ module.exports.signup = async (req, res, next) => {
         const registeredUser=await User.register(newUser,password);
 
         // Send the verification email
-        mail.sendVerificationEmail(newUser, token);
+        // mail.sendVerificationEmail(newUser, token);
+
+ 
+sendEmailInChildProcess('verification', newUser, token);
+
+
 
         // Flash success message and redirect
         req.flash("success", "Please verify your email");
@@ -54,6 +81,7 @@ module.exports.renderLoginForm=async(req,res)=>
         res.render("listings/index",{allListings,type});
     };    
  
+
     
 
 module.exports.login=async(req,res)=>
@@ -150,7 +178,8 @@ module.exports.forget=async (req,res)=>
         user.resetPasswordExpires = Date.now() + 3600000; 
     
         await user.save();
-        mail.sendResetPasswordEmail(user,token);
+        // mail.sendResetPasswordEmail(user,token);
+        sendEmailInChildProcess('reset', user, token);
         req.flash("success",`An email has been sent to ' ${user.email} ' with further instructions.`)
         res.redirect("/forget");
     };

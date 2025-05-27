@@ -1,6 +1,6 @@
 {
-  "engines":{
-    "node":"v20.11.0"
+  "engines": {
+    "node": "v20.11.0"
   },
   "name": "rentwebsite",
   "version": "1.0.0",
@@ -12,6 +12,7 @@
   "author": "Aashish gupta",
   "license": "ISC",
   "dependencies": {
+    "bull": "^4.16.5",
     "cloudinary": "^1.21.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
@@ -21,11 +22,15 @@
     "ejs-mate": "^4.0.0",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "ioredis": "^5.6.1",
     "joi": "^17.13.3",
+    "lru-cache": "^11.1.0",
+    "memory-cache": "^0.2.0",
     "method-override": "^3.0.0",
     "mongoose": "^8.5.2",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
+    "node-cache": "^5.1.2",
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
     "passport": "^0.7.0",

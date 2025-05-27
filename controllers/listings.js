@@ -1,24 +1,76 @@
 const Listing = require("../models/listing");
 
-module.exports.index=async function(req,res)
-{
-    let type="All";
-    const allListings = await Listing.find().populate('owner', 'username');
-    res.render("listings/index.ejs",{allListings,type});
+const cache = require("../cache"); // node-cache instance
+const lruCache=require("../lruCache")
+
+module.exports.index = async function(req, res) {
+  let type = "All";
+
+  // Try to get data from cache
+  let allListings = cache.get('allListings');
+
+  if (!allListings) {  // Cache miss
+    console.log('⏳ Cache Miss: index');
+    
+    // Fetch data and convert to plain JS object with lean()
+    allListings = await Listing.find().populate('owner', 'username').lean();
+
+    // Set cache with TTL of 100 seconds (100000 ms)
+    cache.put('allListings', allListings, 100000);
+  } else {
+    console.log('✅ Cache Hit: index');
+  }
+
+  res.render('listings/index.ejs', { allListings, type });
 };
 
-module.exports.rent=async function(req,res)
-{
-    let type="Rent";
-    const allListings = await Listing.find({type:"rent"}).populate('owner', 'username');
-    res.render("listings/index.ejs",{allListings,type});
+
+
+module.exports.rent = async function(req, res) {
+  let type = "Rent";
+
+  // Try to get cached rent listings
+  let allListings = cache.get('rentListings');
+
+  if (!allListings) {  // Cache miss
+    console.log('⏳ Cache Miss: rent');
+
+    allListings = await Listing.find({ type: "rent" })
+      .populate('owner', 'username')
+      .lean();
+
+    // Set cache with TTL of 100 seconds
+    cache.put('rentListings', allListings, 100000);
+  } else {
+    console.log('✅ Cache Hit: rent');
+  }
+
+  res.render("listings/index.ejs", { allListings, type });
 };
-module.exports.buy=async function(req,res)
-{
-    let type="Buy";
-    const allListings = await Listing.find({type:"buy"}).populate('owner', 'username');
-    res.render("listings/index.ejs",{allListings,type});
+
+
+module.exports.buy = async function(req, res) {
+  let type = "Buy";
+
+  // Try to get cached buy listings
+  let allListings = cache.get('buyListings');
+
+  if (!allListings) {  // Cache miss
+    console.log('⏳ Cache Miss: buy');
+
+    allListings = await Listing.find({ type: "buy" })
+      .populate('owner', 'username')
+      .lean();
+
+    // Set cache with TTL of 100 seconds (100000 ms)
+    cache.put('buyListings', allListings, 100000);
+  } else {
+    console.log('✅ Cache Hit: buy');
+  }
+
+  res.render("listings/index.ejs", { allListings, type });
 };
+
 module.exports.renderNewForm=(req,res)=>
     {
         
@@ -26,28 +78,38 @@ module.exports.renderNewForm=(req,res)=>
     };
  
 
-module.exports.showListing=async function(req,res)
-{
-    let {id}=req.params;
-    let listing=await Listing.findById(id).
-    populate({
-        path:"reviews",
-        populate:{
-            path:"author"
+module.exports.showListing = async function(req, res) {
+  const { id } = req.params;
+
+  // 🧠 Check LRU cache first
+  let listing = lruCache.get(id);
+
+  if (!listing) {
+    console.log("⏳ Cache Miss: listing", id);
+
+    listing = await Listing.findById(id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author"
         }
-    })
-    .populate("owner");
-    if(!listing)
-    {
-        req.flash("error","Listing you requested for does not exist")
-        res.redirect("/listings")
+      })
+      .populate("owner")
+      .lean(); // lean makes it lighter for caching
+
+    if (!listing) {
+      req.flash("error", "Listing you requested does not exist");
+      return res.redirect("/listings");
     }
-  
-    let currUserId=null;
-    if(res.locals.currUser) 
-    currUserId=res.locals.currUser._id
-    
-    res.render("listings/show.ejs",{listing,currUserId});
+
+    lruCache.set(id, listing); // ✅ Cache this listing
+  } else {
+    console.log("✅ Cache Hit: listing", id);
+  }
+
+  const currUserId = res.locals.currUser?._id || null;
+
+  res.render("listings/show.ejs", { listing, currUserId });
 };
 
 

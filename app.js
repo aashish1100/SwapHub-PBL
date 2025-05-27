@@ -33,9 +33,11 @@ app.set("views",path.join(__dirname,"views"));
 // app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({extended:true}));//very img 
 app.use(express.static(path.join(__dirname,'/public')));
-
+ 
+  
 //database connection
 // const mongourl="mongodb://127.0.0.1:27017"
+   
 
 const dbUrl = process.env.ATLASDB_URL;
 async function main()
@@ -74,30 +76,6 @@ const sessionOptions = {
 }
 
 
-// update old data
-// async function addIsVerifiedField() {
-//     try {
-//       // Update all users, setting `isVerified` to true
-//       await User.updateMany({}, { $set: { isVerified: true } });
-  
-//       console.log("Updated all users with isVerified: true");
-//       mongoose.connection.close();
-//     } catch (error) {
-//       console.error("Error updating users: ", error);
-//       mongoose.connection.close();
-//     }
-
-//     console.log("success");
-//   }
-  
-//   addIsVerifiedField();
-
-
-
-// app.get("/",(req,res)=>
-// {
-//     res.send("hi i am root");
-// })
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -105,11 +83,15 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 require('./midleware.js');
+
+
+
 // passport.use(new LocalStrategy(User.authenticate()));
 
 // passport.serializeUser(User.serializeUser());
 // passport.deserializeUser(User.deserializeUser());
-
+  
+ 
 app.use((req,res,next)=>
 {
     res.locals.success=req.flash("success");

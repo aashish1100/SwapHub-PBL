@@ -88,7 +88,7 @@ let sendBuyText = (listing ,formData) => {
   // console.log(emailBody);
 };
 
-let sendVerificationEmail = (newUser,verificationToken)=>
+let sendVerificationEmail = async (newUser,verificationToken)=>
 {
     const verificationUrl = `${baseUrl}/verify-email?token=${verificationToken}`;
     
@@ -105,11 +105,18 @@ let sendVerificationEmail = (newUser,verificationToken)=>
    <p>Best regards,<br>
    The SwapHub Team</p>
  `;
-//  console.log(verificationUrl);
-  send(newUser.email,subject,emailBody);
+ console.log(emailBody);
+ console.log("sending---->>",newUser.email)
+  
+  try {
+    await send(newUser.email, subject, emailBody);
+    console.log("sended-->>>");
+  } catch (error) {
+    console.error("Failed to send verification email:", error);
+  }
 }
 
-const sendResetPasswordEmail = (user, resetToken) => {
+const sendResetPasswordEmail =async (user, resetToken) => {
   // Construct the reset URL
   const resetUrl = `${baseUrl}/reset?token=${resetToken}`;
 
@@ -129,7 +136,9 @@ const sendResetPasswordEmail = (user, resetToken) => {
   `;
 
   // Call the send function to actually send the email
-  send(user.email, subject, emailBody);
+  console.log("sending reset email->")
+  await send(user.email, subject, emailBody);
+  console.log("sended -email")
 };
 
 module.exports ={
